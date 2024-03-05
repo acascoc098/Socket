@@ -21,13 +21,13 @@ public class Servidor {
                 int clientPort = packet.getPort();
                 
                 if (command.startsWith("connect")) {
-                    // Asignar nuevo puerto al cliente
+                    
                     clientPorts.put(clientPort, nextPort);
                     DatagramPacket responsePacket = new DatagramPacket(String.valueOf(nextPort).getBytes(), String.valueOf(nextPort).length(), clientIP, clientPort);
                     serverSocket.send(responsePacket);
                     nextPort++;
                 } else {
-                    // Manejar comandos del cliente en un nuevo hilo
+                    
                     Runnable handler = new CommandHandler(serverSocket, packet, command);
                     new Thread(handler).start();
                 }

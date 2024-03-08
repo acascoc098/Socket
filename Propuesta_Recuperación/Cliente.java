@@ -1,10 +1,16 @@
 import java.io.*;
 import java.net.*;
 
+/**
+ * Clase para el cliente, donde tenemos los comandos
+ * @author Andrea Castilla Cocera
+ * acasoc098@g.educand.es
+ */
 public class Cliente {
     public static void main(String[] args) throws IOException {
         String serverAddress = "127.0.0.1";
-        int serverPort = 44444;
+        int serverPort = 3000;
+        String archivo = "listado.txt";
         
         try (DatagramSocket clientSocket = new DatagramSocket()) {
             InetAddress serverIP = InetAddress.getByName(serverAddress);
@@ -19,7 +25,7 @@ public class Cliente {
             String response = new String(responsePacket.getData(), 0, responsePacket.getLength());
             int newPort = Integer.parseInt(response);
             
-            String[] commands = {"list", "get archivo.txt", "remove archivo.txt", "disconnect"};
+            String[] commands = {"list", "get archivo.txt", "remove "+ archivo, "disconnect"};
             for (String command : commands) {
                 DatagramPacket commandPacket = new DatagramPacket(command.getBytes(), command.length(), serverIP, newPort);
                 clientSocket.send(commandPacket);

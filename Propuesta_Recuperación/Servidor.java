@@ -2,9 +2,14 @@ import java.io.*;
 import java.net.*;
 import java.util.concurrent.*;
 
+/**
+ * Clase paar el servidor, donde gestionamos los comandos.
+ * @author Andrea Castilla Cocera
+ * acascoc098@g.educaand.es
+ */
 public class Servidor {
-    private static int serverPort = 44444;
-    private static int nextPort = 50000;
+    private static int serverPort = 3000;
+    private static int nextPort = 5000;
     private static ConcurrentHashMap<Integer, Integer> clientPorts = new ConcurrentHashMap<>();
     private static String rootDirectory = "/Propuesta_Recuperacion";//Pongo este directorio como ejemplo
     
@@ -116,6 +121,7 @@ public class Servidor {
         }
         
         private void executeDisconnectCommand(String[] parts,String response) {
+            //comando disconnect
             try {
                 if (!parts[0].equals("disconnect")) {
                     DatagramPacket responsePacket = new DatagramPacket(response.getBytes(), response.length(), packet.getAddress(), packet.getPort());

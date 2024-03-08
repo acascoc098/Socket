@@ -6,7 +6,7 @@ public class Servidor {
     private static int serverPort = 44444;
     private static int nextPort = 50000;
     private static ConcurrentHashMap<Integer, Integer> clientPorts = new ConcurrentHashMap<>();
-    private static String rootDirectory = "/raiz/carpeta_usuario";
+    private static String rootDirectory = "/Propuesta_Recuperacion";//Pongo este directorio como ejemplo
     
     public static void main(String[] args) throws IOException {
         try (DatagramSocket serverSocket = new DatagramSocket(serverPort)) {
@@ -63,19 +63,11 @@ public class Servidor {
                     response = executeRemoveCommand(parts);
                     break;
                 case "disconnect":
-                    executeDisconnectCommand();
+                    executeDisconnectCommand(parts,response);
                     break;
                 default:
                     response = "Comando no reconocido";
                     break;
-            }
-            try {
-                if (!parts[0].equals("disconnect")) {
-                    DatagramPacket responsePacket = new DatagramPacket(response.getBytes(), response.length(), packet.getAddress(), packet.getPort());
-                    serverSocket.send(responsePacket);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
             }
         }
         
@@ -123,8 +115,16 @@ public class Servidor {
             }
         }
         
-        private void executeDisconnectCommand() {
-            // UDP, que es una conexión sin estado, no es necesario
+        private void executeDisconnectCommand(String[] parts,String response) {
+            try {
+                if (!parts[0].equals("disconnect")) {
+                    DatagramPacket responsePacket = new DatagramPacket(response.getBytes(), response.length(), packet.getAddress(), packet.getPort());
+                    serverSocket.send(responsePacket);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         }
         
     }
